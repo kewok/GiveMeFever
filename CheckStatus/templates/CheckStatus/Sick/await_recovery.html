@@ -1,0 +1,23 @@
+{% extends "CheckStatus/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">You exhibit symptoms of {{ epidemic_name }}. You may recover; you may not. It may kill you; it may not. </p> Such is life.</p /h1>
+ </div>
+{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+<footer>
+<center>
+<div class="col-xs-12 button-wrapper">
+<a href="/CheckStatus/ShowHistory" class="btn btn-success btn-lg">
+<span class="glyphicon glyphicon-book"></span> Epidemic History
+</a>
+<a href="/CheckStatus/StartOver" class="btn btn-danger btn-lg">
+<span class="glyphicon glyphicon-remove"></span> Leave
+</a></div>
+</center>
+</footer>
+{% endblock %}

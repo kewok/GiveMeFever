@@ -1,0 +1,51 @@
+<!--Hack to specify compartmental model; transition to reusable components -->
+
+<select class="selectpicker" name="compartmental_model" style="display: none;">
+  <option>SEIRS</option>
+</select>
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="percent_symptomatic_SEIRS" min="1" max="100" value="50" id ="percent_symptomatic_setter_SEIRS">
+  <p>Percent symptomatic: <span id="percent_symptomatic_value_SEIRS"></span></p>
+</div>
+<script>
+var sliderPSSEIRS = document.getElementById("percent_symptomatic_setter_SEIRS");
+var outputPSSEIRS = document.getElementById("percent_symptomatic_value_SEIRS");
+localStorage.setItem("percent_symptomatic", 50)
+outputPSSEIRS.innerHTML = sliderPSSEIRS.value;
+sliderPSSEIRS.oninput = function() {
+  localStorage.setItem("percent_symptomatic", this.value)
+  outputPSSEIRS.innerHTML = this.value;
+}
+</script>
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="immunity_decay_SEIRS" min="1" max="100" value="50" id ="immunity_decay_setter_SEIRS">
+  <p>Immunity decay rate: <span id="immunity_decay_value_SEIRS"></span></p>
+</div>
+<script>
+var sliderIDSEIRS = document.getElementById("immunity_decay_setter_SEIRS");
+var outputIDSEIRS = document.getElementById("immunity_decay_value_SEIRS");
+localStorage.setItem("immunity_decay", 50)
+outputIDSEIRS.innerHTML = sliderIDSEIRS.value;
+sliderIDSEIRS.oninput = function() {
+  localStorage.setItem("immunity_decay", this.value)
+  outputIDSEIRS.innerHTML = this.value;
+}
+</script>
+
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="incubation_period_SEIRS" min="1" max="100" value="50" id ="incubation_period_setter_SEIRS">
+  <p>Incubation period: <span id="incubation_period_value_SEIRS"></span></p>
+</div>
+<script>
+var sliderIPSEIRS = document.getElementById("incubation_period_setter_SEIRS");
+var outputIPSEIRS = document.getElementById("incubation_period_value_SEIRS");
+localStorage.setItem("incubation_period", 50)
+outputIPSEIRS.innerHTML = sliderIPSEIRS.value;
+sliderIPSEIRS.oninput = function() {
+  localStorage.setItem("incubation_period", this.value)
+  outputIPSEIRS.innerHTML = this.value;
+}
+</script>

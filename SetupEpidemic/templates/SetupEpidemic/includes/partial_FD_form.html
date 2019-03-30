@@ -1,0 +1,15 @@
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="hosts_encountered" min="1" max="100" value="5" id ="hosts_encountered_setter_FD">
+  <p>Average number of encountered hosts: <span id="hosts_encountered_value_FD"></span></p>
+</div>
+<script>
+var sliderNHFD = document.getElementById("hosts_encountered_setter_FD");
+var outputNHFD = document.getElementById("hosts_encountered_value_FD");
+outputNHFD.innerHTML = sliderNHFD.value;
+  localStorage.setItem("Hosts_Encountered", 5)
+sliderNHFD.oninput = function() {
+  localStorage.setItem("Hosts_Encountered", this.value)
+  outputNHFD.innerHTML = this.value;
+}
+</script>
+

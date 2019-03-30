@@ -1,0 +1,21 @@
+{% extends "CheckStatus/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">So that you do not pass on your potential {{ epidemic_name }} infection, you have been isolated from your loved ones and civilized society. Try not to escape from the dungeon. </p /h1>
+ </div>
+{% endblock %}
+
+
+{% block content %}
+<footer>
+<center>
+<div class="col-xs-12 button-wrapper">
+<a href="/CheckStatus/ShowHistory" class="btn btn-success btn-lg">
+<span class="glyphicon glyphicon-book"></span> Epidemic History
+</a>
+<a href="/CheckStatus/StartOver" class="btn btn-danger btn-lg">
+<span class="glyphicon glyphicon-remove"></span> Leave
+</a></div>
+</center>
+</footer>
+{% endblock %}

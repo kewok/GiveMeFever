@@ -1,0 +1,42 @@
+{% extends "JoinEpidemic/header.html" %}
+{% load widget_tweaks %}
+
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Login to an epidemic</p /h1>
+ </div>
+{% endblock %}	
+
+{% block content %}
+<form method="post" action="{% url 'join_epidemic' %}">
+{% csrf_token %}
+<div class='container'>
+<br><br>
+    {% for field in host_form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+</div>
+<br>
+<footer>
+
+<center>
+<div class="button-wrapper">
+ <div class="col-sm-6">
+<button type="submit" class="btn btn-success btn-lg" name="join"><span class="glyphicon glyphicon-log-in"></span> Join the epidemic</button>
+</div>
+ <div class="col-sm-6">
+<a href="/" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</div>
+</center>
+</footer>
+{% endblock %}	
+
+</html>

@@ -1,0 +1,79 @@
+{% extends "SetupEpidemic/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Mode of transmission</p /h1>
+ </div>
+{% endblock %}
+
+{% block content %}
+	<script>
+function setTransmission(transmission_mode) 
+	{
+	if (typeof(Storage) !== "undefined") 
+		{
+		// Store
+		localStorage.setItem("Transmission_Mode", transmission_mode);
+		if (transmission_mode === "DD")
+			{
+			localStorage.setItem("Hosts_Encountered", 0);
+			}
+		} 
+	}
+
+console.log(localStorage);
+	</script>
+<div class="form-row text-center">
+<div class='col-xs-12 img-wrapper'>
+	<div class="col-sm-6">
+	<h2 p class="text-center">Density-dependent transmission</p /h2>
+	<img class="img img-responsive" data-toggle="modal" name="DD" data-target="#DensDep" img src="/static/images/DensDepTransmission.png" button onclick="setTransmission('DD')"> 
+	</div>
+	<div class="col-sm-6"> 
+	<h2 p class="text-center">Frequency-dependent transmission</p /h2>
+	<img class="img img-responsive" a href="{% url 'customize_FD_transmission' %}" data-toggle="modal" data-target="#modal-FD" name="FD" img src="/static/images/FreqDepTransmission.png" button onclick="setTransmission('FD')">
+	</div>
+	<div class="modal fade" id="DensDep" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Density-dependent <br>transmission</h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								<p>More hosts means more infection opportunities. E.g., a flight passenger has the flu. The passenger infects more people on a crowded flight than on a deserted flight.</p>
+								</h4>
+								</div>
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_transmission' %}" class="btn btn-primary" name="confirm_DD">Select density-dependent transmission</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</center>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- FD -->
+		<div class="modal fade" id="modal-FD">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+<footer>
+<div class="col-sm-12">
+<a href="/SetupEpidemic/StartOver" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</footer>
+{% endblock %}
+
+

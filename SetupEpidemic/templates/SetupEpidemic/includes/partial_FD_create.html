@@ -1,0 +1,24 @@
+<!--Based on: https://github.com/sibtc/simple-ajax-crud */-->
+
+
+<form method="post" action="{% url 'submit_transmission' %}">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Frequency-dependent transmission</h4>
+  </div>
+ <div class="modal-body">
+	<h4>
+	Infection opportunities are constant. E.g., a mosquito carries zika. The number of people the mosquito can bite over its lifetime is the same in a large city as in a small village.
+	<br>IRL examples: <br> vector-borne and sexually transmitted pathogens
+	</h4>
+	</div>
+    <div class="modal-footer" style="text-align: center;">
+	{% include 'SetupEpidemic/includes/partial_FD_form.html' %}
+    <button type="submit" class="btn btn-primary" name="confirm_FD">Select frequency-dependent transmission</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+</form>
+

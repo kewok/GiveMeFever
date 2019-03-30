@@ -1,0 +1,27 @@
+.button-wrapper .btn {
+    margin-bottom:5px;
+    width: 235px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+@media (min-width: 400px) and (max-width: 500px) {
+label {
+    font-size: 20px;
+    display: block;
+    text-align: center;
+    line-height: 150%;
+}
+}
+label {
+    font-size: 25px;
+    display: block;
+    line-height: 150%;
+}
+
+.img-wrapper .img {
+    margin-bottom:5px;
+}
+
+

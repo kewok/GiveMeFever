@@ -1,0 +1,92 @@
+{% extends "CheckStatus/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">You exhibit symptoms of {{ epidemic_name }}</p /h1>
+ </div>
+{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+<div class='img-wrapper'>
+		<div class="col-sm-6">
+		<img class="img img-responsive" data-toggle="modal" data-target="#med" img src="/static/images/Interventions/Medication.png">
+		</div>
+		<div class="col-sm-6">
+		<img class="img img-responsive" data-toggle="modal" data-target="#isolate" img src="/static/images/Interventions/Isolate.png">
+		</div>
+</div>
+</div>
+<!-- Modals -->
+	<!-- Medicate -->
+		<div class="modal fade" id="med" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Post-exposure prophylaxis</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Take antimicrobial medication to try to prevent becoming infectious or worsening symptoms.
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<div class="col-sm-12 text-center">
+								<a href="{% url 'select_intervention' %}?intervention=M" class="btn btn-primary">Take medication</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<!-- Isolate -->
+		<div class="modal fade" id="isolate" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Isolation</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								If you think there is a high likelihood you are infectious, go under isolation where you will not be in contact with other hosts until you get better.
+								</h4>
+								</div>
+								<div class="modal-footer">
+								<div class="col-sm-12 text-center">
+								<a href="{% url 'select_intervention' %}?intervention=K" class="btn btn-primary">Attempt isolation</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<footer>
+<div class="col-sm-6 button-wrapper">
+<a href="/CheckStatus/ShowHistory" class="btn btn-success btn-lg">
+<span class="glyphicon glyphicon-book"></span> Epidemic History
+</a>
+</div>
+<div class="col-sm-6 button-wrapper">
+<a href="/CheckStatus/StartOver" class="btn btn-danger btn-lg">
+<span class="glyphicon glyphicon-remove"></span> Leave
+</a></div>
+</div>
+</footer>
+{% endblock %}
+

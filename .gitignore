@@ -1,0 +1,5 @@
+GMF/__py_cache__
+*.py~
+*~
+*.pyo
+*.pyc

@@ -1,0 +1,125 @@
+{% extends "CheckStatus/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">You show no symptoms of {{ epidemic_name }}</p /h1>
+ </div>
+{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+	<div class="form-row text-center">
+	<div class='col-xs-12 img-wrapper'>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#vax" img src="/static/images/Interventions/Vaccination.png">
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#block" img src="/static/images/Interventions/BlockTransmission.png">
+		</div>
+		<div class="col-sm-4">
+		<img class="img img-responsive" data-toggle="modal" data-target="#quarantine" img src="/static/images/Interventions/Quarantine.png">
+		</div>
+	</div>
+	</div>
+<!-- Modals -->
+	<!-- Vaccinate -->
+		<div class="modal fade" id="vax" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Vaccination</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Innoculate yourself and attempt to develop adaptive immunity
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'select_intervention' %}?intervention=V" class="btn btn-primary">Attempt vaccination</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<!-- Block transmission -->
+		<div class="modal fade" id="block" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Block transmission</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Try to interrupt being exposed to the pathogen.
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'select_intervention' %}?intervention=B" class="btn btn-primary">Attempt blocking transmission</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Quarantine -->
+		<div class="modal fade" id="quarantine" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Quarantine</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								It's possible you've been infected, but can't be sure. Go under quarantine where you will be isolated from everyone until you are no longer a risk.
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'select_intervention' %}?intervention=Q" class="btn btn-primary">Attempt quarantine</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<footer>
+<center>
+<div class="col-xs-12 button-wrapper">
+<a href="/CheckStatus/ShowHistory" class="btn btn-success btn-lg">
+<span class="glyphicon glyphicon-book"></span> Epidemic History
+</a>
+<a href="/CheckStatus/StartOver" class="btn btn-danger btn-lg">
+<span class="glyphicon glyphicon-remove"></span> Leave
+</a></div>
+</center>
+</footer>
+{% endblock %}
+

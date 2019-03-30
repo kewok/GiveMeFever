@@ -1,0 +1,284 @@
+{% extends "SetupEpidemic/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Specify intervention success</p /h1>
+ </div>
+{% endblock %}
+
+
+{% block content %}
+<script>
+window.onload=function() // load the modal properties by the pathogen and the degree of further customization
+	{
+	if (localStorage.getItem("vaccine_possible") ==='false')
+		{
+		document.getElementById('vaccinate').setAttribute('style', 'display: none');
+		document.getElementById('vaccine_modal').setAttribute('style', 'display: none');
+		document.getElementById("vaccine_efficacy_setter").style.visibility = "hidden";
+		}
+	if (localStorage.getItem("quarantine_possible") === 'false')
+		{
+		document.getElementById('quarantine').setAttribute('style', 'display: none');
+		document.getElementById('quarantine_modal').setAttribute('style', 'display: none');
+		document.getElementById("quarantine_success_setter").style.visibility = "hidden";
+		}
+	}
+
+console.log(localStorage);
+</script>
+
+<div id="quarantine">
+	<center>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#quarantine_modal">Quarantining </button>
+	</center>
+	<br><br>
+		<div class="slidecontainer">
+		<input type = "range" class="slider" name="quarantine_success" min="0" max="100" value="0" id ="quarantine_success_setter">
+		<br>
+		<p>Efficacy: <span id="quarantine_success_value"></span></p>
+		</div>
+		<script>
+		var sliderQ = document.getElementById("quarantine_success_setter");
+		var outputQ = document.getElementById("quarantine_success_value");
+		localStorage.setItem("Quarantine_Success", 0);
+		outputQ.innerHTML = sliderQ.value;
+		sliderQ.oninput = function() {
+		localStorage.setItem("Quarantine_Success", this.value);
+		  outputQ.innerHTML = this.value;
+		}
+		</script>
+	<br><br>
+</div>
+
+<div id='vaccinate'>
+	<center>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vaccine_modal">Vaccination </button>
+	</center>
+	<br><br><br>
+		<div class="slidecontainer">
+		  <input type = "range" class="slider" name="vaccine_efficacy" min="0" max="100" value="0" id ="vaccine_efficacy_setter">
+		  <br>
+		  <p>Efficacy: <span id="vaccine_efficacy_value"></span></p>
+		</div>
+		<script>
+		var sliderV = document.getElementById("vaccine_efficacy_setter");
+		var outputV = document.getElementById("vaccine_efficacy_value");
+		localStorage.setItem("Vaccine_Efficacy", 0);
+		outputV.innerHTML = sliderV.value;
+		sliderV.oninput = function() {
+		localStorage.setItem("Vaccine_Efficacy", this.value);
+		  outputV.innerHTML = this.value;
+		}
+		</script>
+	<br><br>
+</div>
+<center>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#drugs">Administering antimicrobials</button>
+</center>
+<br><br>
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="drug_efficacy" min="0" max="100" value="0" id ="drug_efficacy_setter">
+  <br>
+  <p>Efficacy: <span id="drug_efficacy_value"></span></p>
+</div>
+<script>
+var sliderD = document.getElementById("drug_efficacy_setter");
+var outputD = document.getElementById("drug_efficacy_value");
+localStorage.setItem("Drug_Efficacy", 0)
+outputD.innerHTML = sliderD.value;
+sliderD.oninput = function() {
+  localStorage.setItem("Drug_Efficacy", this.value);
+  outputD.innerHTML = this.value;
+}
+</script>
+<br><br>
+<center>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#transmission">Blocking transmission </button>
+</center>
+<br><br>
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="transmission_blocking" min="0" max="100" value="0" id ="transmission_blocking_setter">
+  <br>
+  <p>Efficacy: <span id="transmission_blocking_value"></span></p>
+</div>
+<script>
+var sliderT = document.getElementById("transmission_blocking_setter");
+var outputT = document.getElementById("transmission_blocking_value");
+localStorage.setItem("Transmission_Blocking", 0);
+outputT.innerHTML = sliderT.value;
+sliderT.oninput = function() {
+  localStorage.setItem("Transmission_Blocking", this.value);
+  outputT.innerHTML = this.value;
+}
+</script>
+<br><br>
+<center>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#isolation">Isolating </button>
+</center>
+<br><br>
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="isolation_success" min="0" max="100" value="0" id ="isolation_success_setter">
+  <br>
+  <p>Efficacy: <span id="isolation_success_value"></span></p>
+</div>
+<script>
+var sliderI = document.getElementById("isolation_success_setter");
+var outputI = document.getElementById("isolation_success_value");
+localStorage.setItem("Isolation_Success", 0)
+outputI.innerHTML = sliderI.value;
+sliderI.oninput = function() {
+  localStorage.setItem("Isolation_Success", this.value);
+  outputI.innerHTML = this.value;
+}
+</script>
+</center>
+
+<!--modals-->
+<div class="modal fade" id="quarantine_modal" role="dialog" tabindex="-1">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Quarantining</h4>
+							</div>
+
+							<div class="modal-body">
+							<h4>
+							<p>Quarantine exposed individuals so that they cannot have contact with susceptible individuals.'0 (default)' means there will be no quarantining.<br>IRL examples: Kamau Taurua</p>
+							</h4>
+							</div>
+							<div class="modal-footer">
+							<center>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Got it.</button>
+							</center>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="modal fade" id="vaccine_modal" role="dialog" tabindex="-1">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Vaccination</h4>
+							</div>
+
+							<div class="modal-body">
+							<h4>
+							<p>Vaccinate susceptible individuals.'0 (default)' means there  is no vaccine available. IRL examples: Small pox vaccine</p>
+							</h4>
+							</div>
+							<div class="modal-footer">
+							<center>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Got it.</button>
+							</center>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="modal fade" id="drugs" role="dialog" tabindex="-1">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Administering antimicrobials</h4>
+							</div>
+
+							<div class="modal-body">
+							<h4>
+							<p>Allow participants to administer an anti-microbial drug that clears the infection. '0 (default)' means no drug treatment is available. IRL examples: antibiotics</p>
+							</h4>
+							</div>
+							<div class="modal-footer">
+							<center>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Got it.</button>
+							</center>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="transmission" role="dialog" tabindex="-1">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Blocking transmission</h4>
+							</div>
+
+							<div class="modal-body">
+							<h4>
+							<p>Implement a population-wide strategy interrupting the transmission cycle. '0 (default)' means no interruption of transmission is possible. IRL examples: flu masks, mosquito bednets</p>
+							</h4>
+							</div>
+							<div class="modal-footer">
+							<center>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Got it.</button>
+							</center>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="isolation" role="dialog" tabindex="-1">
+		<div class="vertical-alignment-helper">
+			<div class="modal-dialog vertical-align-center">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Isolation</h4>
+							</div>
+
+							<div class="modal-body">
+							<h4>
+							<p>Isolate infectious individuals so that they cannot have contact with susceptible individuals. '0 (default)' means no isolation can occur. IRL examples: US Code 42 Sect. 264</p>
+							</h4>
+							</div>
+							<div class="modal-footer">
+							<center>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Got it.</button>
+							</center>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class='button-wrapper'>
+<div class='col-sm-6'>
+<a href="{% url 'submit_intervention' %}" button class="btn btn-success btn-lg" name='submit_interventions'> Submit interventions</a>
+</div>
+<div class='col-sm-6'>
+<a href="/SetupEpidemic/StartOver" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</div>
+{% endblock %}

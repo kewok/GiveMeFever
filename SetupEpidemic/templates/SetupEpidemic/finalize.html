@@ -1,0 +1,104 @@
+{% extends "SetupEpidemic/header.html" %}
+{% load widget_tweaks %}
+
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Final details</p /h1>
+ </div>
+{% endblock %}
+
+
+{% block content %}
+<script>
+console.log(localStorage);
+window.onload=function()
+	{
+	document.getElementById('pathogen_species_entry').value = localStorage.getItem("Pathogen_Species");
+	document.getElementById('compartmental_model_entry').value = localStorage.getItem("Compartment_Model");
+	document.getElementById('transmission_mode_entry').value = localStorage.getItem("Transmission_Mode");
+	document.getElementById('hosts_encountered_entry').value = localStorage.getItem("Hosts_Encountered");
+	document.getElementById('isolation_success_entry').value = localStorage.getItem("Isolation_Success");
+	document.getElementById('quarantine_success_entry').value = localStorage.getItem("Quarantine_Success");
+	document.getElementById('transmission_blocking_entry').value = localStorage.getItem("Transmission_Blocking");
+	document.getElementById('vaccine_efficacy_entry').value = localStorage.getItem("Vaccine_Efficacy");
+	document.getElementById('drug_efficacy_entry').value = localStorage.getItem("Drug_Efficacy");
+	document.getElementById('immunity_decay_entry').value = localStorage.getItem("immunity_decay");
+	document.getElementById('incubation_period_entry').value = localStorage.getItem("incubation_period");
+	document.getElementById('recovery_rate_entry').value = localStorage.getItem("recovery_rate");
+	document.getElementById('percent_symptomatic_entry').value = localStorage.getItem("percent_symptomatic");
+	document.getElementById('virulence_entry').value = localStorage.getItem("virulence_value");
+	document.getElementById('R0_entry').value = localStorage.getItem("R0_value");
+	}
+</script>
+
+<form method="post" action="{% url 'finish_setup' %}">
+{% csrf_token %}
+<div class='container'>
+<br><br>
+<!--Enter the hidden fields from localStorage-->
+<input type="hidden" id='pathogen_species_entry' name="pathogen-species" value="" />
+<input type="hidden" id='compartmental_model_entry' name="epidemic-compartmental_model" value="" />
+<input type="hidden" id='transmission_mode_entry' name="epidemic-transmission_mode" value="" />
+<input type="hidden" id='hosts_encountered_entry' name="epidemic-hosts_encountered" value="" />
+<input type="hidden" id='isolation_success_entry' name="interventions-isolation_success" value="" />
+<input type="hidden" id='quarantine_success_entry' name="interventions-quarantine_success" value="" />
+<input type="hidden" id='transmission_blocking_entry' name="interventions-transmission_blocking" value="" />
+<input type="hidden" id='drug_efficacy_entry' name="interventions-drug_efficacy" value="" />
+<input type="hidden" id='vaccine_efficacy_entry' name="interventions-vaccine_efficacy" value="" />
+<input type="hidden" id='immunity_decay_entry' name="pathogen-immunity_decay" value="" />
+<input type="hidden" id='incubation_period_entry' name="pathogen-incubation_period" value="" />
+<input type="hidden" id='recovery_rate_entry' name="pathogen-recovery_rate" value="" />
+<input type="hidden" id='percent_symptomatic_entry' name="pathogen-percent_symptomatic" value="" />
+<input type="hidden" id='virulence_entry' name="pathogen-virulence" value="" />
+<input type="hidden" id='R0_entry' name="pathogen-R0" value="" />
+
+
+    {% for field in epidemic_initialization_form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+	{% if field.name == 'epidemic_signup_deadline' %}
+                <div class='input-group date' id='datetimepicker1'>
+<!--the correct form name is epidemic-epidemic_signup_deadline not epidemic.epidemic_signup_deadline or epidemic_signup_deadline ...-->
+                    <input type='text' name='epidemic-epidemic_signup_deadline' class="form-control"/> 
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+        	</div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+            format:'YYYY-MM-DD HH:mm:ss',
+	    defaultDate: moment().add(1,'hours')
+        });
+            });
+        </script>
+	{% endif %}
+	{% if field.name != 'epidemic_signup_deadline' %}
+		{{ field|add_class:'form-control' }}
+	{% endif %}
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endfor %}
+</div>
+<br>
+<center>
+<h2>
+</sub> Note your epidemic will be purged 1 month from the signup deadline. </sub>
+</h2>
+<br>
+<br>
+</center>
+<footer>
+<div class='button-wrapper'>
+<div class='col-sm-6'>
+<button type="submit" class="btn btn-success btn-lg" name="finalize">Unleash upon the world</button>
+</div>
+<div class='col-sm-6'>
+<a href="/SetupEpidemic/StartOver" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</div>
+</footer>
+{% endblock %}

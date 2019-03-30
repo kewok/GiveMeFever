@@ -1,0 +1,325 @@
+{% extends "SetupEpidemic/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Pick your compartmental model</p /h1>
+ </div>
+{% endblock %}
+
+{% block content %}
+<script>
+function setCompartmentModel(compartment_model) 
+	{
+	if (typeof(Storage) !== "undefined") 
+		{
+		// Store
+		localStorage.setItem("quarantine_possible", false);
+		localStorage.setItem("vaccine_possible", false);
+
+		localStorage.setItem("Compartment_Model", compartment_model);
+
+		if (compartment_model.indexOf('E') > -1)
+			{
+			localStorage.setItem("quarantine_possible", true);
+			}
+		if (compartment_model.indexOf('R') > -1)
+			{
+			localStorage.setItem("vaccine_possible", true);
+			}
+		} 
+	}
+
+window.onload=function() // load the modal properties by the pathogen and the degree of further customization
+	{
+	if (localStorage.getItem("Pathogen_Species") != "PN")
+		{
+		document.getElementById("SI").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SI");
+		document.getElementById("SI").setAttribute("data-target", "#modal-SI");
+		document.getElementById("SIS").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SIS"); 
+		document.getElementById("SIS").setAttribute("data-target", "#modal-SIS");
+		document.getElementById("SIR").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SIR");
+		document.getElementById("SIR").setAttribute("data-target", "#modal-SIR");
+		document.getElementById("SEIR").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SEIR");
+		document.getElementById("SEIR").setAttribute("data-target", "#modal-SEIR");
+		document.getElementById("SEIS").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SEIS");
+		document.getElementById("SEIS").setAttribute("data-target", "#modal-SEIS");
+		document.getElementById("SEIRS").setAttribute("href", "{% url 'customize_compartment_model' %}?compartment_model=SEIRS");
+		document.getElementById("SEIRS").setAttribute("data-target", "#modal-SEIRS");
+		}
+	else
+		{
+		document.getElementById("SI").setAttribute("data-target", "#SI2");
+		document.getElementById("SIS").setAttribute("data-target", "#SIS2");
+		document.getElementById("SIR").setAttribute("data-target", "#SIR2");
+		document.getElementById("SEIR").setAttribute("data-target", "#SEIR2");
+		document.getElementById("SEIS").setAttribute("data-target", "#SEIS2");
+		document.getElementById("SEIRS").setAttribute("data-target", "#SEIRS2");
+		}
+
+	document.getElementById("SI").setAttribute("onclick", "setCompartmentModel('SI')");
+	document.getElementById("SIS").setAttribute("onclick", "setCompartmentModel('SIS')");
+	document.getElementById("SIR").setAttribute("onclick", "setCompartmentModel('SIR')");
+	document.getElementById("SEIR").setAttribute("onclick", "setCompartmentModel('SEIR')");
+	document.getElementById("SEIS").setAttribute("onclick", "setCompartmentModel('SEIS')");
+	document.getElementById("SEIRS").setAttribute("onclick", "setCompartmentModel('SEIRS')");
+	}
+console.log(localStorage);
+</script>
+	<div class="form-row text-center">
+	<div id="result"></div>
+	<div class='col-xs-12 img-wrapper'>
+	<div class="col-sm-2"> 	
+	<image id="SI" img class="img img-responsive" name="SI" image src="/static/images/Compartments/SI_model.png" data-toggle="modal">
+	</div>
+	<div class="col-sm-2">
+	<image id="SIS" img class="img img-responsive" name="SIS" image src="/static/images/Compartments/SIS_model.png" data-toggle="modal">
+	</div>
+	<div class="col-sm-2"> 
+	<image id="SIR" img class="img img-responsive" name="SIR" img src="/static/images/Compartments/SIR_model.png" data-toggle="modal">		
+	</div>
+	<div class="col-sm-2"> 
+	<image id="SEIR" img class="img img-responsive" name="SEIR" img src="/static/images/Compartments/SEIR_model.png" data-toggle="modal">		
+	</div>
+	<div class="col-sm-2"> 
+	<image id="SEIS" img class="img img-responsive" name="SEIS" img src="/static/images/Compartments/SEIS_model.png" data-toggle="modal">		
+	</div>
+	<div class="col-sm-2"> 
+	<image id="SEIRS" img class="img img-responsive" name="SEIRS" img src="/static/images/Compartments/SEIRS_model.png" data-toggle="modal">		
+	</div>
+
+<!-- Modals -->
+	<!-- SI -->
+		<div class="modal fade" id="modal-SI">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+	<!-- SIS -->
+		<div class="modal fade" id="modal-SIS">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+
+	<!-- SIR -->
+		<div class="modal fade" id="modal-SIR">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+
+	<!-- SEIR -->
+		<div class="modal fade" id="modal-SEIR">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+	<!-- SEIS -->
+		<div class="modal fade" id="modal-SEIS">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+
+	<!-- SEIRS -->
+		<div class="modal fade" id="modal-SEIRS">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+
+	<!-- Modals for PN; note relevant parameters have already been entered by user -->
+	<!-- SI2 -->
+		<div class="modal fade" id="SI2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Infectious Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Susceptible players become infectious upon contact and remain so for the duration of the epidemic.
+								<br>IRL examples: <br> zombie apocalypse
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SI">Done!</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+
+	<!-- SIS2 -->
+		<div class="modal fade" id="SIS2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Infectious-Susceptible Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Susceptible players become infectious upon contact and recover to becoming susceptible.
+								<br>IRL examples: <br> malaria
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SIS">Select compartmental model</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<!-- SIR2 -->
+		<div class="modal fade" id="SIR2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Infectious-Resistant Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								Susceptible players become infectious upon contact and recover to becoming immune.
+								<br>IRL examples: <br> measles
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SIR">Select compartmental model</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- SEIR2 -->
+		<div class="modal fade" id="SEIR2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Exposed-Infectious-Resistant Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								Susceptible players become infectious upon contact and become permanently immune upon recovery.
+								<br>IRL examples: <br> chikungunya
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SEIR">Select compartmental model</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- SEIS2 -->
+		<div class="modal fade" id="SEIS2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Exposed-Infectious-Susceptible Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								Susceptible players become infectious upon contact and become immune upon recovery. However, they also become susceptible as immunity wanes.
+								<br>IRL examples: <br> influenza
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SEIS">Select compartmental model</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- SEIRS2 -->
+		<div class="modal fade" id="SEIRS2" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Susceptible-Exposed-Infectious-Resistant-Susceptible Model</h4>								
+								</div>
+
+								<div class="modal-body">
+								Susceptible players become exposed upon infection, become infectious, and recover to becoming temporarily immune, but immunity wanes.
+								<br>IRL examples: <br> rhinoviruses
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<center>
+								<a href="{% url 'submit_compartment' %}" class="btn btn-primary" name="confirm_SEIRS">Select compartmental model</a>
+								</center>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+<footer>
+<center>
+<div class="col-sm-12">
+<a href="/SetupEpidemic/StartOver" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</center>
+</footer>
+
+{% endblock %}
+

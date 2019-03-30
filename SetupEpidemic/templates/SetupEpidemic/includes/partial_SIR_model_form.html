@@ -1,0 +1,22 @@
+<!--Hack to specify compartmental model; transition to reusable components -->
+
+<select class="selectpicker" name="compartmental_model" style="display: none;">
+  <option>SIR</option>
+</select>
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="percent_symptomatic_SIR" min="1" max="100" value="50" id ="percent_symptomatic_setter_SIR">
+  <p>Percent symptomatic: <span id="percent_symptomatic_value_SIR"></span></p>
+</div>
+<script>
+var sliderPSSIR = document.getElementById("percent_symptomatic_setter_SIR");
+var outputPSSIR = document.getElementById("percent_symptomatic_value_SIR");
+outputPSSIR.innerHTML = sliderPSSIR.value;
+localStorage.setItem("percent_symptomatic", 50)
+sliderPSSIR.oninput = function() {
+  localStorage.setItem("percent_symptomatic", this.value);
+  outputPSSIR.innerHTML = this.value;
+}
+</script>
+
+

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Give me Fever!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'looks.css' %}" type = "text/css"/>
+</head>
+
+<body>
+
+<div class="jumbotron">
+ <h1 p class="text-center">Give me Fever!</p /h1>
+ </div>
+
+
+<div class="container">
+ 	<div class="form-row text-center">
+	<div class='col-xs-12 button-wrapper'>
+		<div class="col-sm-6"> 
+		<a href="/SetupEpidemic" class="btn btn-success btn-lg" name="configure">
+		<span class="glyphicon glyphicon-wrench"></span> Configure an epidemic
+		</a></div>
+		<div class="col-sm-6"> 
+		<a href="/CheckStatus" class="btn btn-success btn-lg" name="check_status">
+		<span class="glyphicon glyphicon-user"></span> Check my status
+		</a></div>
+		<div class="col-sm-6"> 
+		<a href="/JoinEpidemic" class="btn btn-success btn-lg" name="join">
+		<span class="glyphicon glyphicon-log-in"></span> Join an epidemic
+		</a></div>
+		<div class="col-sm-6"> 
+		<a href="/DownloadEpidemic" class="btn btn-success btn-lg" name="download">
+		<span class="glyphicon glyphicon-download"></span> Download an epidemic
+		</a></div>
+	</div>
+	</div>
+</div>
+</body>
+</html>

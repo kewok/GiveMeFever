@@ -1,0 +1,218 @@
+{% extends "SetupEpidemic/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Choose a pathogen</p /h1>
+ </div>
+{% endblock %}
+
+{% block content %}
+	<script>
+	function setPathogen(species) 
+		{
+		if (typeof(Storage) !== "undefined") 
+			{
+			// Store
+			localStorage.clear()
+			localStorage.setItem("Pathogen_Species", species);
+			} 
+		}
+	</script>
+
+	<div class="form-row text-center">
+	<div class='col-xs-12 img-wrapper'>
+		<div class="col-sm-4">
+		<img class="img img-responsive" a href="{% url 'customize_pathogen' %}" data-toggle="modal" data-target="#modal-neoforma" name="PN" img src="/static/images/PathogenSpecies/PoxNeoforma.png">
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#poxMax" name="PM" img src="/static/images/PathogenSpecies/PoxMaximus.png"> 
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#poxAcu" name="PA" img src="/static/images/PathogenSpecies/PoxAcutus.png"> 		
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#poxPan" name="PP" img src="/static/images/PathogenSpecies/PoxPandemicus.png"> 		
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#poxInt" name="PI" img src="/static/images/PathogenSpecies/PoxIntermedius.png"> 		
+		</div>
+		<div class="col-sm-4"> 
+		<img class="img img-responsive" data-toggle="modal" data-target="#poxFut" name="PF" img src="/static/images/PathogenSpecies/PoxFutilicus.png"> 		
+		</div>
+
+
+	<!-- NeoForma -->
+		<div class="modal fade" id="modal-neoforma">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				</div>
+			</div>
+		</div>
+<!-- Modals -->
+	<!-- Maximus -->
+		<div class="modal fade" id="poxMax" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Poximus maximus</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								  <p>R<sub>0</sub> > 1 </p>
+								<p>No transmission-virulence trade-off</p>
+								<p>Highly infectious and virulent</p>
+								<p>IRL examples: smallpox, Ranaviruses </p>
+								</h4>
+								</div>
+							
+								<div class="modal-footer">
+								<a href="/SetupEpidemic/ChooseCompartment" button onclick="setPathogen('PM');"  class="btn btn-primary" name="confirm_PM">Select pathogen</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<!-- Acutus -->
+		<div class="modal fade" id="poxAcu" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Poximus acutus</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								<p>R<sub>0</sub> > 1 </p>
+								<p>Strong transmission-virulence trade-off</p>
+								<p>Highly virulent; modestly infectious</p>
+								<p>IRL examples: Methicillin-resistant <br><i>Staphylococcus aureus</i>, <br> ebola</p>
+								</h4>
+								</div>
+
+
+								<div class="modal-footer">
+								<a href="/SetupEpidemic/ChooseCompartment" button onclick="setPathogen('PA');" class="btn btn-primary" name="confirm_PA">Select pathogen</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Pandemicus -->
+		<div class="modal fade" id="poxPan" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Poximus pandemicus</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								<p>R<sub>0</sub> > 1 </p>
+								<p>Strong transmission-virulence trade-off</p>
+								<p>Highly infectious; modestly virulent</p>
+								<p>IRL examples: Pertussis, measles</p>
+								</h4>
+								</div>
+
+
+								<div class="modal-footer">
+								<a href="/SetupEpidemic/ChooseCompartment" button onclick="setPathogen('PP');" class="btn btn-primary" name="confirm_PP">Select pathogen</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Intermedius -->
+		<div class="modal fade" id="poxInt" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Poximus intermedius</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								<p>R<sub>0</sub> = 1 </p>
+								<p>Strong transmission-virulence trade-off</p>
+								<p>Modestly virulent, modestly infectious</p>
+								<p>IRL examples: pneumonic plague, chagas </p>
+								</h4>
+								</div>
+
+
+								<div class="modal-footer">
+								<a href="/SetupEpidemic/ChooseCompartment" button onclick="setPathogen('PI');" class="btn btn-primary" name="confirm_PI">Select pathogen</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- Futilicus -->
+		<div class="modal fade" id="poxFut" role="dialog" tabindex="-1">
+			<div class="vertical-alignment-helper">
+				<div class="modal-dialog vertical-align-center">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><i>Poximus futilicus</i></h4>
+								</div>
+
+								<div class="modal-body">
+								<h4>
+								<p>R<sub>0</sub> < 1 </p>
+								<p>Strong transmission-virulence trade-off</p>
+								<p>Neither virulent nor very infectious</p>
+								<p>IRL examples: Microbiome archaea, pinworms </p>
+								</h4>
+								</div>
+
+
+								<div class="modal-footer">
+								<a href="/SetupEpidemic/ChooseCompartment" button onclick="setPathogen('PF');" class="btn btn-primary" name="confirm_PF">Select pathogen</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<footer>
+<div class="col-sm-12">
+<a href="/SetupEpidemic/StartOver" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</footer>
+{% endblock %}
+
+
+

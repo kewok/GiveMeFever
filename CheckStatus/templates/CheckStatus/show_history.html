@@ -1,0 +1,26 @@
+{% extends "CheckStatus/header.html" %}
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center"> On the epidemiological history of {{ host_name }}</p /h1>
+ </div>
+{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+<!-- from https://stackoverflow.com/a/4756748/-->
+{% for value in status %}
+	<li> At {{ value.0|safe }} {{ host_name }} went from {{ value.1|safe }} to {{ value.2|safe }}</li>
+{% endfor %}
+<br>
+<footer>
+<center>
+<div class="col-sm-12">
+<a href="/CheckStatus/" class="btn btn-danger btn-lg">
+<span class="glyphicon glyphicon-arrow-left"></span> Back
+</a></div>
+</center>
+</footer>
+{% endblock %}
+

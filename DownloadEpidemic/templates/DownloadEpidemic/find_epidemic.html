@@ -1,0 +1,43 @@
+{% extends "DownloadEpidemic/header.html" %}
+{% load widget_tweaks %}
+
+{% block pageTitle %}
+<div class="jumbotron">
+ <h1 p class="text-center">Download an epidemic</p /h1>
+ </div>
+{% endblock %}	
+
+{% block content %}
+<form method="post" action="{% url 'download_epidemic' %}">
+{% csrf_token %}
+<div class='container'>
+<br><br>
+    {% for field in epidemic_form.visible_fields %}
+      <div class="form-group" >
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+      </div>
+    {% endfor %}
+{% for error in epidemic_form.non_field_errors %}
+<span class="help-block">{{ error }}</span>
+{% endfor %}
+</div>
+<br>
+
+<footer>
+<div class="button-wrapper" >
+ <div class="col-sm-6">
+<button type="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-download"></span>  Download the epidemic</button>
+</div>
+ <div class="col-sm-6">
+<a href="/" class="btn btn-danger btn-lg" name="start_over">
+<span class="glyphicon glyphicon-remove"></span> Start over
+</a></div>
+</div>
+</footer>
+{% endblock %}	
+</div>
+
+
+</body>
+</html>

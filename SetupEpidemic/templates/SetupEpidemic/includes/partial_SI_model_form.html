@@ -1,0 +1,20 @@
+<!--Hack to specify compartmental model; transition to reusable components -->
+
+<select class="selectpicker" name="compartmental_model" style="display: none;">
+  <option>SI</option>
+</select>
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="percent_symptomatic_SI" min="1" max="100" value="50" id ="percent_symptomatic_setter_SI">
+  <p>Percent symptomatic: <span id="percent_symptomatic_value_SI"></span></p>
+</div>
+<script>
+var sliderPSSI = document.getElementById("percent_symptomatic_setter_SI");
+var outputPSSI = document.getElementById("percent_symptomatic_value_SI");
+localStorage.setItem("percent_symptomatic", 50)
+outputPSSI.innerHTML = sliderPSSI.value;
+sliderPSSI.oninput = function() {
+  localStorage.setItem("percent_symptomatic", this.value);
+  outputPSSI.innerHTML = this.value;
+}
+</script>

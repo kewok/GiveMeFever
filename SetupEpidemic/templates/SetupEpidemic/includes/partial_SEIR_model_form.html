@@ -1,0 +1,36 @@
+<!--Hack to specify compartmental model; transition to reusable components -->
+
+<select class="selectpicker" name="compartmental_model" style="display: none;">
+  <option>SEIR</option>
+</select>
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="percent_symptomatic_SEIR" min="1" max="100" value="50" id ="percent_symptomatic_setter_SEIR">
+  <p>Percent symptomatic: <span id="percent_symptomatic_value_SEIR"></span></p>
+</div>
+<script>
+var sliderPSSEIR = document.getElementById("percent_symptomatic_setter_SEIR");
+var outputPSSEIR = document.getElementById("percent_symptomatic_value_SEIR");
+localStorage.setItem("percent_symptomatic", 50)
+outputPSSEIR.innerHTML = sliderPSSEIR.value;
+sliderPSSEIR.oninput = function() {
+  localStorage.setItem("percent_symptomatic", this.value);
+  outputPSSEIR.innerHTML = this.value;
+}
+</script>
+
+<div class="slidecontainer">
+  <input type = "range" class="slider" name="incubation_period_SEIR" min="1" max="100" value="50" id ="incubation_period_setter_SEIR">
+  <p>Incubation period: <span id="incubation_period_value_SEIR"></span></p>
+</div>
+<script>
+var sliderIPSEIR = document.getElementById("incubation_period_setter_SEIR");
+var outputIPSEIR = document.getElementById("incubation_period_value_SEIR");
+localStorage.setItem("incubation_period", 50)
+outputIPSEIR.innerHTML = sliderIPSEIR.value;
+sliderIPSEIR.oninput = function() {
+  localStorage.setItem("incubation_period", this.value);
+  outputIPSEIR.innerHTML = this.value;
+}
+</script>
+
+
