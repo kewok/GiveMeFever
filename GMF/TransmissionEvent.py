@@ -29,7 +29,7 @@ class TransmissionEvent:
 	def simulate_density_dependent_transmission(self):		
 		"""Iterate over the list of infectious hosts and determine whether there will be an infection event betweem the focal infectious host and a given susceptible host, conditioned on a contact event. Note the number of contact events should increase as the number of susceptibles increase."""
 		for host_I in self.original_infectious:
-			number_of_contacts = len(self.suscpetibles)
+			number_of_contacts = len(self.susceptibles)
 			#InfectionEvent.objects.filter(host_infected=host_I).order_by('-id')[0].secondary_infections_attempted += number_of_contacts
 			IE=InfectionEvent.objects.filter(host_infected=host_I).latest('date_infected')
 			IE.secondary_infections_attempted += number_of_contacts

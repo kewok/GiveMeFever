@@ -39,9 +39,9 @@ def check_status(request):
 				return render(request, 'CheckStatus/vaccinated.html', context = {'epidemic_name': epidemic_settings.name,'host_compartment': host_compartment})
 			if host_compartment.name=='M':
 				return render(request, 'CheckStatus/medicated.html', context = {'epidemic_name': epidemic_settings.name,'host_compartment': host_compartment})
-			if host_compartment.name=='K':
+			if host_compartment.name in ('Kf','Kt','KfR'):
 				return render(request, 'CheckStatus/isolated.html', context = {'epidemic_name': epidemic_settings.name,'host_compartment': host_compartment})
-			if host_compartment.name=='Q':
+			if host_compartment.name in ('Qf','Qt','QfR'):
 				return render(request, 'CheckStatus/quarantined.html', context = {'epidemic_name': epidemic_settings.name,'host_compartment': host_compartment})
 		except Exception as e: 
 			print(e)
@@ -100,7 +100,27 @@ def select_intervention(request):
 			host.save()
 	else:
 		# Get the compartment to which the host will belong after the intervention
-		new_compartment = Compartment.objects.get(epidemic=epidemic, name=intervention_chosen)
+		if intervention_chosen=='Q':
+			if host.current_compartment.name in ['Ea','Es']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='Qt')
+			# Quarantine of infectious host is akin to isolation.
+			if host.current_compartment.name in ['Ia']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='Kt')
+			# prevent resistant hosts from quarantining themselves
+			if host.current_compartment.name in ['R']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='QfR')
+			if host.current_compartment.name not in ['Ia','Ea','Es','R']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='Qf')
+		if intervention_chosen=='K':
+			if host.current_compartment.name in ['Ia','Is']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='Kt')
+			else:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='Kf')
+		if intervention_chosen=='V':
+			if host.current_compartment.name in ['Ia','Ea','R']:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name=host.current_compartment.name)
+			else:
+				new_compartment = Compartment.objects.get(epidemic=epidemic, name='V')
 		# Add the host to the compartment to which it will belong after the intervention
 		CompartmentChange.objects.create(epidemic=epidemic, host=host, source_compartment=host.current_compartment, destination_compartment=new_compartment, time_switched=timezone.datetime.today())
 		host.current_compartment = new_compartment
@@ -112,7 +132,7 @@ def show_history(request):
 	host = Host.objects.get(name=request.session.get('host_name'), epidemic=epidemic)
 	health_history = CompartmentChange.objects.filter(host=host)
 	status = []
-	COMPARTMENTS = {'S':'Not sick', 'Ea':'Not sick','Ia':'Not sick','R':'Not sick','Es':'Sick','Is':'Sick','D':'Dead','V':'Vaccinated','M':'Medicated', 'K':'Isolated', 'Q':'Quarantined'}
+	COMPARTMENTS = {'S':'Not sick', 'Ea':'Not sick','Ia':'Not sick','R':'Not sick','Es':'Sick','Is':'Sick','D':'Dead','V':'Vaccinated','M':'Medicated', 'Kf':'Isolated', 'KfR':'Isolated', 'Kt':'Isolated', 'Qt':'Quarantined', 'Qf':'Quarantined', 'QfR':'Quarantined'}
 	for value in health_history:
 		status.append(tuple((convert_to_localtime(value.time_switched), COMPARTMENTS[value.source_compartment.name], COMPARTMENTS[value.destination_compartment.name])))
 	return render(request, 'CheckStatus/show_history.html', context = {'host_name': host.name , 'status': status})

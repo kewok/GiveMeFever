@@ -49,9 +49,15 @@ class Epidemic(models.Model):
 		if epidemic_settings.intervention_available('M'):
 			Compartment.objects.create(name='M', epidemic=self)
 		if epidemic_settings.intervention_available('K'):
-			Compartment.objects.create(name='K', epidemic=self)
+			Compartment.objects.create(name='Kf', epidemic=self)
+			Compartment.objects.create(name='Kt', epidemic=self)
+			if 'R' in set(list(epidemic_settings.compartmental_model)):
+				Compartment.objects.create(name='KfR', epidemic=self)
 		if epidemic_settings.intervention_available('Q'):
-			Compartment.objects.create(name='Q', epidemic=self)
+			Compartment.objects.create(name='Qf', epidemic=self)
+			Compartment.objects.create(name='Qt', epidemic=self)
+			if 'R' in set(list(epidemic_settings.compartmental_model)):
+				Compartment.objects.create(name='QfR', epidemic=self)
 		Compartment.objects.create(name='D',epidemic=self)
 
 	def will_initialize(self):
@@ -78,7 +84,7 @@ class Epidemic(models.Model):
 		for compartment in Compartment.objects.filter(epidemic=self):
 			if compartment.name in {'Is','Ia','Es','Ea','R','D'}:
 				compartment.determine_natural_transition_rates()
-			if compartment.name in {'V','M','K','Q'}:
+			if compartment.name in {'V','M','Kt','Kf','KfR','Qt','Qf','QfR'}:
 				compartment.determine_intervention_transitions()
 		self.transmission_rate = self.calculate_transmission_rate()
 		self.save()
@@ -138,8 +144,12 @@ class Compartment(models.Model):
 			('D','Dead'),
 			('V', 'Vaccinated'),
 			('M', 'Medicated'),
-			('K', 'Isolated'), #kakuri
-			('Q', 'Quarantined'),
+			('Kf', 'Isolated false positive'), #kakuri
+			('Kt', 'Isolated true case'), #kakuri
+			('KfR', 'Isolated false positive recovered'), #kakuri
+			('Qf', 'Quarantined false positive'),
+			('Qt', 'Quarantined true case'),
+			('QfR', 'Quarantined false positive recovered'),
 			)
 	name = models.CharField(max_length=2, choices=COMPARTMENTS)
 	epidemic = models.ForeignKey(Epidemic, on_delete=models.CASCADE)
@@ -189,17 +199,21 @@ class Compartment(models.Model):
 
 	def determine_intervention_transitions(self):
 		# For quarantine and isolation, assume the host enters that compartment as long as they select the intervention
-		compartment_destinations = {'V':['S','V'], 'M':['S','Is','R'], 'Q':['Q','Es','K'], 'K':['S','K','Is','Ia','R','D']}
+		compartment_destinations = {'V':['S','V'], 'M':['S','Is','R'], 'Qf':['Qf','S','Kf'],'QfR':['QfR','R','KfR','Qf'], 'Kf':['S','Kf'], 'KfR':['R','KfR','Kf'], 'Qt':['Qt','Es','Ea','Kt'],'Kt':['S','Is','Ia','Kt','R','D']}
 		immunity = 1
 		epidemic_settings = EpidemicSettings.objects.get(epidemic=self.epidemic)
 		pathogen_settings = PathogenSettings.objects.get(epidemic_settings=epidemic_settings)
 		intervention_settings = InterventionSettings.objects.get(epidemic_settings=epidemic_settings)
 		if epidemic_settings.compartmental_model in {'SIS','SEIS'}:
 			immunity = 0
-		transition_dictionaries = {'V':{'S': pathogen_settings.immunity_decay + (1-intervention_settings.vaccine_efficacy), 'V': 1-pathogen_settings.immunity_decay},
+		transition_dictionaries = {'V':{'S': pathogen_settings.immunity_decay + (1-intervention_settings.vaccine_efficacy), 'V': (1-pathogen_settings.immunity_decay)*intervention_settings.vaccine_efficacy},
 					   'M':{'S': (1-immunity) * intervention_settings.drug_efficacy, 'R': immunity * intervention_settings.drug_efficacy, 'Is':1-intervention_settings.drug_efficacy},
-					   'Q':{'Q':intervention_settings.quarantine_success, 'Es':1-intervention_settings.quarantine_success, 'K': pathogen_settings.incubation_period,},
-					   'K':{'S': (1-immunity) * pathogen_settings.recovery_rate, 'K': intervention_settings.isolation_success,'Is':1-intervention_settings.isolation_success,'R': immunity*pathogen_settings.recovery_rate, 'D':pathogen_settings.virulence}}
+					   'Qf':{'Qf': intervention_settings.quarantine_success, 'S': 1-intervention_settings.quarantine_success, 'Kf': pathogen_settings.incubation_period,},
+					   'QfR':{'QfR': intervention_settings.quarantine_success, 'R': 1-intervention_settings.quarantine_success, 'KfR': pathogen_settings.incubation_period, 'Qf': pathogen_settings.immunity_decay},
+					   'Qt':{'Qt': intervention_settings.quarantine_success, 'Es': (1-intervention_settings.quarantine_success)*pathogen_settings.percent_symptomatic, 'Ea': intervention_settings.quarantine_success*(1-pathogen_settings.percent_symptomatic),  'Kt': pathogen_settings.incubation_period,},
+					   'Kf':{'S': intervention_settings.isolation_success*pathogen_settings.recovery_rate, 'Kf': intervention_settings.isolation_success*(1-pathogen_settings.recovery_rate)},
+					   'KfR':{'R': intervention_settings.isolation_success*pathogen_settings.recovery_rate, 'KfR': intervention_settings.isolation_success*(1-pathogen_settings.recovery_rate), 'Kf': pathogen_settings.immunity_decay},
+					   'Kt':{'S': (1-immunity) * pathogen_settings.recovery_rate, 'Kt': (1-pathogen_settings.recovery_rate)*intervention_settings.isolation_success*(1-pathogen_settings.virulence), 'Is': (pathogen_settings.percent_symptomatic)*(1-intervention_settings.isolation_success), 'Ia': (1-pathogen_settings.percent_symptomatic)*(1-intervention_settings.isolation_success), 'R': immunity*pathogen_settings.recovery_rate, 'D': pathogen_settings.virulence,}}
 
 		transition_dictionary = transition_dictionaries[self.name]
 		old_sum = decimal.Decimal(sum(transition_dictionary.values()))
